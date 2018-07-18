@@ -5,7 +5,7 @@
 
 ### Specs:
 
-- Crust
+- User
   - The User can create their Crust
   - The User can perform a set of actions
     - Explore or Passthrough(increment time)
@@ -17,17 +17,22 @@
   - User must maintain (thirst, hygiene, happiness, rest, hunger, fix)
   - User must avoid ailments
 - Neighborhood(environment)
-  - User properties experiences modifications based on environment
-  - User properties change with time
-  - Neighborhood has social class
-    - Certain resources are locked to a social class
+  - People
+    -speech
+    -resources
 - Resources
   - User can get food(Sandwich, sidewalk nachos (odd toppings), road kill, animals)
   - User can get rest((lawn/alley)couch, box, grass, sidewalk)
   - User source for Water(poor quality/good quality)
+  - Fix
 - Dumpster Resources
   - User can roll (protection, food, fix, hygiene)
-- Random
+
+----------------
+##### Extra:
+
+- Modifier
   - weather Environment has Weather changes(rain, snow, clear, cloud)
   - interactions Environment changes interaction results
+  - Luck
   - fate Odd acts of fate (stabbed, 'arrested', given gift, bad fix,)

@@ -28,4 +28,7 @@
   <ItemGroup>
     <Content Remove="Views\Shared\Error.cshtml" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Models\AilmentModel.cs" />
+  </ItemGroup>
 </Project>
