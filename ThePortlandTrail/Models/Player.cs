@@ -1,273 +1,210 @@
-﻿using System.Collections.Generic;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using MySql.Data.MySqlClient;
 using ThePortlandTrail;
-using System;
 
 namespace ThePortlandTrail.Models
 {
-    public class Player
-    {   
-        private int _id;
-        private int _food;
-        private int _fix;
-        private int _rest;
-        private string _name;
+  public class Player
+  {
+    private static string _tableName = "players";
+    private int _id;
+    private int _food;
+    private int _fix;
+    private int _rest;
+    private string _name;
 
-        private static Player livePlayer = null;
 
-        public Player(string name, int food = 100, int fix = 100, int rest = 100, int id = 0){
-            _name = name;
-            _id = id;
-            _food = food;
-            _fix = fix;
-            _rest = rest;
-        }
+    private static Player livePlayer = null;
 
-        public string GetName(){
-            return _name;
-        }
+    public Player(string name, int food = 100, int fix = 100, int rest = 100, int id = 0)
+    {
+      _name = name;
+      _id = id;
+      _food = food;
+      _fix = fix;
+      _rest = rest;
+    }
 
-        public int GetId(){
-            return _id;
-        }
+    public string GetName()
+    {
+      return _name;
+    }
 
-        public override bool Equals (System.Object otherPlayer) {
-            if (!(otherPlayer is Player)) {
-                return false;
-            } else {
-                Player newPlayer = (Player) otherPlayer;
-                bool idEquality = this.GetId () == newPlayer.GetId ();
-                bool nameEquality = this.GetName () == newPlayer.GetName ();
-                return (idEquality && nameEquality);
-            }
-        }
+    public int GetId()
+    {
+      return _id;
+    }
 
-        public override int GetHashCode () {
-            return this.GetId ().GetHashCode ();
-        }
 
-        public void Save(){
-            livePlayer = this;
-            MySqlConnection conn = DB.Connection ();
-            conn.Open ();
 
-            MySqlCommand cmd = new MySqlCommand(@"INSERT INTO players (name) VALUES (@Name);", conn);
+    public void Save()
+    {
+      livePlayer = this;
+      DB.OpenConnection();
+      DB.SetCommand(@"INSERT INTO players (name) VALUES (@Name);");
+      DB.AddParameter("@Name", _name);
+      DB.RunSqlCommand();
+      _id = DB.LastInsertId();
+      DB.CloseConnection();
+    }
 
-            cmd.Parameters.Add (new MySqlParameter ("@Name", _name));
+    public static Player Find (int id)
+    {
+      List<Object> objects = new List<Object>(){};
+      string command = @"SELECT * FROM players WHERE id = (@SearchId);";
+      DB.OpenConnection();
+      DB.SetCommand(command);
+      DB.AddParameter("@SearchId", id);
+      DB.ReadTable(DelegateFind,objects);
+      DB.CloseConnection();
 
-            cmd.ExecuteNonQuery ();
-            _id = (int) cmd.LastInsertedId;
-            conn.Close ();
-            if (conn != null) {
-                conn.Dispose ();
-            }
-        }
+      return (Player) objects[0];
+    }
 
-        public static Player Find (int id) {
-            MySqlConnection conn = DB.Connection ();
-            conn.Open ();
+    private static void DelegateFind(MySqlDataReader rdr,List<Object> objects)
+    {
+        int playerId = rdr.GetInt32 (0);
+        int playerFood = rdr.GetInt32 (1);
+        int playerFix = rdr.GetInt32 (2);
+        int playerRest = rdr.GetInt32 (3);
+        string playerName = rdr.GetString (4);
+        Player newPlayer = new Player (playerName, playerId, playerFood, playerFix, playerRest);
+        objects.Add(newPlayer);
+    }
 
-            MySqlCommand cmd = new MySqlCommand(@"SELECT * FROM players WHERE id = (@SearchId);", conn);
+    public static Player GetPlayer()
+    {
+      return livePlayer;
+    }
 
-            cmd.Parameters.Add (new MySqlParameter ("@SearchId", id));
+    public static List<Player> GetAll ()
+    {
+      List<Object> objects = new List<Object>(){};
+      string command = @"SELECT * FROM players ORDER BY name;";
+      DB.OpenConnection();
+      DB.SetCommand(command);
+      DB.ReadTable(DelegateGetAll,objects);
+      DB.CloseConnection();
+      return objects.Cast<Player>().ToList();
+    }
 
-            var rdr = cmd.ExecuteReader () as MySqlDataReader;
-            int playerId = 0;
-            int playerFood = 0;
-            int playerFix = 0;
-            int playerRest = 0;
-            string playerName = "";
+    public static void DelegateGetAll(MySqlDataReader rdr,List<Object> objects)
+    {
+      int playerId = rdr.GetInt32 (0);
+      int playerFood = rdr.GetInt32 (1);
+      int playerFix = rdr.GetInt32 (2);
+      int playerRest = rdr.GetInt32 (3);
+      string playerName = rdr.GetString (4);
+      Player newPlayer = new Player (playerName, playerId, playerFood, playerFix, playerRest);
+      objects.Add (newPlayer);
+    }
 
-            while (rdr.Read ()) {
-                playerId = rdr.GetInt32 (0);
-                playerFood = rdr.GetInt32 (1);
-                playerFix = rdr.GetInt32 (2);
-                playerRest = rdr.GetInt32 (3);
-                playerName = rdr.GetString (4);
-            }
-            Player newPlayer = new Player (playerName, playerId, playerFood, playerFix, playerRest);
-            conn.Close ();
-            if (conn != null) {
-                conn.Dispose ();
-            }
-            return newPlayer;
-        }
+    public void UpdatePlayerName (string newPlayerName)
+    {
+      DB.Edit(_tableName,_id,"name",newPlayerName);
+    }
 
-        public static Player GetPlayer(){
-            return livePlayer;
-        }
+    public void UpdatePlayerFood (int newPlayerFood)
+    {
+      DB.Edit(_tableName,_id,"food",newPlayerFood);
+    }
 
-        public static List<Player> GetAll () {
-            List<Player> allPlayers = new List<Player> { };
-            MySqlConnection conn = DB.Connection ();
-            conn.Open ();
+    public void UpdatePlayerFix (int newPlayerFix)
+    {
+      DB.Edit(_tableName,_id,"fix",newPlayerFix);
+    }
 
-            MySqlCommand cmd = new MySqlCommand(@"SELECT * FROM players ORDER BY name;", conn);
+    public void UpdatePlayerRest (int newPlayerRest)
+    {
+      DB.Edit(_tableName,_id,"rest",newPlayerRest);
+    }
 
-            var rdr = cmd.ExecuteReader () as MySqlDataReader;
-            while (rdr.Read ()) {
-                int playerId = rdr.GetInt32 (0);
-                int playerFood = rdr.GetInt32 (1);
-                int playerFix = rdr.GetInt32 (2);
-                int playerRest = rdr.GetInt32 (3);
-                string playerName = rdr.GetString (4);
-                Player newPlayer = new Player (playerName, playerId, playerFood, playerFix, playerRest);
-                allPlayers.Add (newPlayer);
-            }
-            conn.Close ();
-            if (conn != null) {
-                conn.Dispose ();
-            }
-            return allPlayers;
-        }
+    public int GetFood()
+    {
+      return _food;
+    }
 
-        public void UpdatePlayerName (string newPlayerName) {
-            MySqlConnection conn = DB.Connection ();
-            conn.Open ();
-            MySqlCommand cmd = new MySqlCommand(@"UPDATE players SET name = @NewPlayerName WHERE id = @SearchId;", conn);
+    public int GetFix()
+    {
+      return _fix;
+    }
 
-            cmd.Parameters.Add (new MySqlParameter ("@SearchId", _id));
-            cmd.Parameters.Add (new MySqlParameter ("@NewPlayerName", newPlayerName));
+    public int GetRest()
+    {
+      return _rest;
+    }
 
-            cmd.ExecuteNonQuery ();
-            _name = newPlayerName;
+    public void GiveFood()
+    {
+      if(_food >= 100 || _fix >= 100)
+      {
+        _rest -= 5;
+      } else{
+        _food += 10;
+        _rest -= 5;
+        _fix += 5;
+      }
+    }
 
-            conn.Close ();
-            if (conn != null) {
-                conn.Dispose ();
-            }
-        }
+    public void GiveFix()
+    {
+      if(_fix >= 100){
+        _fix -= 10;
+      } else{
+        _fix += 15;
+        _rest -= 10;
+        _food -= 5;
+      }
+    }
 
-        public void UpdatePlayerFood (int newPlayerFood) {
-            MySqlConnection conn = DB.Connection ();
-            conn.Open ();
-            MySqlCommand cmd = new MySqlCommand(@"UPDATE players SET food = @NewPlayerFood WHERE id = @SearchId;", conn);
+    public void GiveRest()
+    {
+      if(_rest >= 100){
+        _food -= 10;
+        _fix -= 20;
+      }
+      else{
+        _rest += 15;
+        _food -= 10;
+        _fix -= 5;
+      }
+    }
 
-            cmd.Parameters.Add (new MySqlParameter ("@SearchId", _id));
-            cmd.Parameters.Add (new MySqlParameter ("@NewPlayerFood", newPlayerFood));
+    public void PassTime()
+    {
+      _food -= 15;
+      _fix -= 15;
+      _rest -= 15;
+    }
 
-            cmd.ExecuteNonQuery ();
-            _food = newPlayerFood;
+    public void Delete()
+    {
+      DB.DeleteById(_tableName,_id);
+    }
 
-            conn.Close ();
-            if (conn != null) {
-                conn.Dispose ();
-            }
-        }
+    public static void DeleteAll ()
+    {
+      DB.ClearTable(_tableName);
+    }
 
-        public void UpdatePlayerFix (int newPlayerFix) {
-            MySqlConnection conn = DB.Connection ();
-            conn.Open ();
-            MySqlCommand cmd = new MySqlCommand(@"UPDATE players SET fix = @NewPlayerFix WHERE id = @SearchId;", conn);
+    public override bool Equals (System.Object otherPlayer)
+    {
+      if (!(otherPlayer is Player)) {
+        return false;
+      } else {
+        Player newPlayer = (Player) otherPlayer;
+        bool idEquality = this.GetId () == newPlayer.GetId ();
+        bool nameEquality = this.GetName () == newPlayer.GetName ();
+        return (idEquality && nameEquality);
+      }
+    }
 
-            cmd.Parameters.Add (new MySqlParameter ("@SearchId", _id));
-            cmd.Parameters.Add (new MySqlParameter ("@NewPlayerFix", newPlayerFix));
-
-            cmd.ExecuteNonQuery ();
-            _fix = newPlayerFix;
-
-            conn.Close ();
-            if (conn != null) {
-                conn.Dispose ();
-            }
-        }
-
-        public void UpdatePlayerRest (int newPlayerRest) {
-            MySqlConnection conn = DB.Connection ();
-            conn.Open ();
-            MySqlCommand cmd = new MySqlCommand(@"UPDATE players SET fix = @NewPlayerRest WHERE id = @SearchId;", conn);
-
-            cmd.Parameters.Add (new MySqlParameter ("@SearchId", _id));
-            cmd.Parameters.Add (new MySqlParameter ("@NewPlayerRest", newPlayerRest));
-
-            cmd.ExecuteNonQuery ();
-            _rest = newPlayerRest;
-
-            conn.Close ();
-            if (conn != null) {
-                conn.Dispose ();
-            }
-        }
-
-        public int GetFood(){
-            return _food;
-        }
-
-        public int GetFix(){
-            return _fix;
-        }
-
-        public int GetRest(){
-            return _rest;
-        }
-
-        public void GiveFood(){
-            if(_food >= 100 || _fix >= 100)
-            {
-                _rest -= 5;
-            } else{
-                _food += 10;
-                _rest -= 5;
-                _fix += 5;
-            }
-        }
-
-        public void GiveFix(){
-            if(_fix >= 100){
-                _fix -= 10;
-            } else{
-                _fix += 15;
-                _rest -= 10;
-                _food -= 5;
-            }
-        }
-
-        public void GiveRest(){
-            if(_rest >= 100){
-                _food -= 10;
-                _fix -= 20;
-            }
-            else{
-                _rest += 15;
-                _food -= 10;
-                _fix -= 5;
-            }
-        }    
-
-        public void PassTime()
-        {
-            _food -= 15;
-            _fix -= 15;
-            _rest -= 15;
-        }
-
-        public void Delete()
-        {
-            MySqlConnection conn = DB.Connection();
-            conn.Open();
-
-            MySqlCommand cmd = new MySqlCommand(@"DELETE FROM players WHERE id = @PlayerId;", conn);
-
-            cmd.Parameters.Add (new MySqlParameter ("@PlayerId", _id));
-
-            cmd.ExecuteNonQuery();
-            if (conn != null)
-            {
-                conn.Close();
-            }
-        }
-
-        public static void DeleteAll () {
-            MySqlConnection conn = DB.Connection ();
-            conn.Open ();
-
-            MySqlCommand cmd = new MySqlCommand(@"DELETE FROM players;", conn);
-
-            cmd.ExecuteNonQuery ();
-            conn.Close ();
-            if (conn != null) {
-                conn.Dispose ();
-            }
-        }   
-    }    
+    public override int GetHashCode ()
+    {
+      return this.GetId ().GetHashCode ();
+    }
+  }
 }
