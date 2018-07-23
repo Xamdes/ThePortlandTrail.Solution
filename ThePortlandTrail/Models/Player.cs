@@ -66,13 +66,13 @@ namespace ThePortlandTrail.Models
 
     private static void DelegateFind(MySqlDataReader rdr,List<Object> objects)
     {
-        int playerId = rdr.GetInt32 (0);
-        int playerFood = rdr.GetInt32 (1);
-        int playerFix = rdr.GetInt32 (2);
-        int playerRest = rdr.GetInt32 (3);
-        string playerName = rdr.GetString (4);
-        Player newPlayer = new Player (playerName, playerId, playerFood, playerFix, playerRest);
-        objects.Add(newPlayer);
+      int playerId = rdr.GetInt32 (0);
+      int playerFood = rdr.GetInt32 (1);
+      int playerFix = rdr.GetInt32 (2);
+      int playerRest = rdr.GetInt32 (3);
+      string playerName = rdr.GetString (4);
+      Player newPlayer = new Player (playerName, playerId, playerFood, playerFix, playerRest);
+      objects.Add(newPlayer);
     }
 
     public static Player GetPlayer()
@@ -208,4 +208,3 @@ namespace ThePortlandTrail.Models
     }
   }
 }
-
