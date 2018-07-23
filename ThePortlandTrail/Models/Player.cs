@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -71,7 +71,7 @@ namespace ThePortlandTrail.Models
       int playerFix = rdr.GetInt32 (2);
       int playerRest = rdr.GetInt32 (3);
       string playerName = rdr.GetString (4);
-      Player newPlayer = new Player (playerName, playerId, playerFood, playerFix, playerRest);
+      Player newPlayer = new Player (playerName, playerFood, playerFix, playerRest, playerId);
       objects.Add(newPlayer);
     }
 
@@ -98,7 +98,7 @@ namespace ThePortlandTrail.Models
       int playerFix = rdr.GetInt32 (2);
       int playerRest = rdr.GetInt32 (3);
       string playerName = rdr.GetString (4);
-      Player newPlayer = new Player (playerName, playerId, playerFood, playerFix, playerRest);
+      Player newPlayer = new Player (playerName, playerFood, playerFix, playerRest, playerId);
       objects.Add (newPlayer);
     }
 

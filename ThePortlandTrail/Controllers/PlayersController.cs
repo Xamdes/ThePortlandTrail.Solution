@@ -8,7 +8,7 @@ using ThePortlandTrail.Models;
 
 namespace ThePortlandTrail.Controllers
 {
-    public class PlayersController : Controller 
+    public class PlayersController : Controller
     {
         [HttpGet("/Player/Home")]
         public ActionResult PlayerHome()
@@ -19,11 +19,14 @@ namespace ThePortlandTrail.Controllers
         [HttpPost("/Player/Home")]
         public ActionResult NewPlayer()
         {
-           Player newPlayer = new Player(Request.Form["new-name"]);
-           newPlayer.Save();
-           return RedirectToAction("PlayerHome");
+            Player newPlayer = new Player(Request.Form["new-name"]);
+            newPlayer.Save();
+            return RedirectToAction("PlayerHome");
         }
         [HttpGet("/Player/{id}/Actions")]
-
+        public ActionResult Action()
+        {
+            return View();
+        }
     }
 }
