@@ -5,7 +5,7 @@ namespace ThePortlandTrail
     {
       private static string _connectionString = "server=localhost;user id=root;password=root;port=8889;database=crust;Convert Zero Datetime=True;Allow User Variables=true;";
 
-      private static string _testConnectionString = "server=localhost;user id=root;password=root;port=8889;database=crust;Convert Zero Datetime=True;Allow User Variables=true;";
+      private static string _testConnectionString = "server=localhost;user id=root;password=root;port=8889;database=crust_test;Convert Zero Datetime=True;Allow User Variables=true;";
 
       public static string GetConnection()
       {
