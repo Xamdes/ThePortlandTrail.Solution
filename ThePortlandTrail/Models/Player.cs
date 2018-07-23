@@ -44,8 +44,11 @@ namespace ThePortlandTrail.Models
     {
       livePlayer = this;
       DB.OpenConnection();
-      DB.SetCommand(@"INSERT INTO players (name) VALUES (@Name);");
+      DB.SetCommand(@"INSERT INTO players (name, food, fix, rest) VALUES (@Name, @Food, @Fix, @Rest);");
       DB.AddParameter("@Name", _name);
+      DB.AddParameter("@Food", _food);
+      DB.AddParameter("@Fix", _fix);
+      DB.AddParameter("@Rest", _rest);
       DB.RunSqlCommand();
       _id = DB.LastInsertId();
       DB.CloseConnection();
