@@ -30,6 +30,18 @@ namespace ThePortlandTrail.Models
         public int GetId(){
             return _id;
         }
+        public int GetFood()
+        {
+            return _food;
+        }
+        public int GetFix()
+        {
+            return _fix;
+        }
+        public int GetRest()
+        {
+            return _rest;
+        }
 
         public override bool Equals (System.Object otherPlayer) {
             if (!(otherPlayer is Player)) {
@@ -51,9 +63,12 @@ namespace ThePortlandTrail.Models
             MySqlConnection conn = DB.Connection ();
             conn.Open ();
 
-            MySqlCommand cmd = new MySqlCommand(@"INSERT INTO players (name) VALUES (@Name);", conn);
+            MySqlCommand cmd = new MySqlCommand(@"INSERT INTO players (name, food, fix, rest) VALUES (@Name, @Food, @Fix, @Rest);", conn);
 
             cmd.Parameters.Add (new MySqlParameter ("@Name", _name));
+            cmd.Parameters.Add(new MySqlParameter("@Food", _food));
+            cmd.Parameters.Add(new MySqlParameter("@Fix", _fix));
+            cmd.Parameters.Add(new MySqlParameter("@Rest", _rest));
 
             cmd.ExecuteNonQuery ();
             _id = (int) cmd.LastInsertedId;
@@ -85,7 +100,7 @@ namespace ThePortlandTrail.Models
                 playerRest = rdr.GetInt32 (3);
                 playerName = rdr.GetString (4);
             }
-            Player newPlayer = new Player (playerName, playerId, playerFood, playerFix, playerRest);
+            Player newPlayer = new Player (playerName, playerFood, playerFix, playerRest, playerId);
             conn.Close ();
             if (conn != null) {
                 conn.Dispose ();
@@ -111,7 +126,7 @@ namespace ThePortlandTrail.Models
                 int playerFix = rdr.GetInt32 (2);
                 int playerRest = rdr.GetInt32 (3);
                 string playerName = rdr.GetString (4);
-                Player newPlayer = new Player (playerName, playerId, playerFood, playerFix, playerRest);
+                Player newPlayer = new Player (playerName, playerFood, playerFix, playerRest, playerId);
                 allPlayers.Add (newPlayer);
             }
             conn.Close ();
@@ -172,35 +187,24 @@ namespace ThePortlandTrail.Models
             }
         }
 
-        public void UpdatePlayerRest (int newPlayerRest) {
-            MySqlConnection conn = DB.Connection ();
-            conn.Open ();
+        public void UpdatePlayerRest(int newPlayerRest)
+        {
+            MySqlConnection conn = DB.Connection();
+            conn.Open();
             MySqlCommand cmd = new MySqlCommand(@"UPDATE players SET fix = @NewPlayerRest WHERE id = @SearchId;", conn);
 
-            cmd.Parameters.Add (new MySqlParameter ("@SearchId", _id));
-            cmd.Parameters.Add (new MySqlParameter ("@NewPlayerRest", newPlayerRest));
+            cmd.Parameters.Add(new MySqlParameter("@SearchId", _id));
+            cmd.Parameters.Add(new MySqlParameter("@NewPlayerRest", newPlayerRest));
 
-            cmd.ExecuteNonQuery ();
+            cmd.ExecuteNonQuery();
             _rest = newPlayerRest;
 
-            conn.Close ();
-            if (conn != null) {
-                conn.Dispose ();
+            conn.Close();
+            if (conn != null)
+            {
+                conn.Dispose();
             }
         }
-
-        public int GetFood(){
-            return _food;
-        }
-
-        public int GetFix(){
-            return _fix;
-        }
-
-        public int GetRest(){
-            return _rest;
-        }
-
         public void GiveFood(){
             if(_food >= 100 || _fix >= 100)
             {

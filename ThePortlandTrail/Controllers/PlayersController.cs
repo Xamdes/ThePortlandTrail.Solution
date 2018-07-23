@@ -8,20 +8,22 @@ using ThePortlandTrail.Models;
 
 namespace ThePortlandTrail.Controllers
 {
-    public class PlayersController : Controller {
+    public class PlayersController : Controller 
+    {
         [HttpGet("/Player/Home")]
-        public ActionResult PlayerHome(){
-            {
-                return View("Index", Player.GetAll());
-            }
+        public ActionResult PlayerHome()
+        {
+            return View("Index", Player.GetAll());
         }
 
-           [HttpPost("/Player/Home")]
-            public ActionResult NewPlayer()
-            {
-            Player newPlayer = new Player(Request.Form["new-name"]);
-            newPlayer.Save();
-            return RedirectToAction("PlayerHome");
-            }
+        [HttpPost("/Player/Home")]
+        public ActionResult NewPlayer()
+        {
+           Player newPlayer = new Player(Request.Form["new-name"]);
+           newPlayer.Save();
+           return RedirectToAction("PlayerHome");
+        }
+        [HttpGet("/Player/{id}/Actions")]
+
     }
 }
