@@ -24,7 +24,7 @@ namespace ThePortlandTrail.Controllers
             return RedirectToAction("PlayerHome");
         }
         [HttpGet("/Player/{id}/Actions")]
-        public ActionResult Action()
+        public ActionResult Actions()
         {
             return View();
         }
