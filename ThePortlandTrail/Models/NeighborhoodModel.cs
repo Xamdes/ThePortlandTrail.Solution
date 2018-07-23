@@ -9,7 +9,7 @@ namespace ThePortlandTrail.Models
     {
         public Neighborhood()
         {
-            
+            private
         }
     }
 }
