@@ -29,7 +29,6 @@ namespace ThePortlandTrail.Controllers
         {
             return View();
         }
-<<<<<<< HEAD
         [HttpPost("/Player/{id}/Food")]
         public ActionResult Food(int id)
         {
@@ -51,11 +50,9 @@ namespace ThePortlandTrail.Controllers
             thisPlayer.GiveRest();
             return RedirectToAction("Actions");
         }
-        [HttpGet("Player/{id}/Delete")]
-=======
+        
 
         [HttpGet("player/{id}/delete")]
->>>>>>> d4fe753961604dcfcc9edbc66683d19aee0eef00
         public ActionResult DeletePlayer(int id)
         {
             Player thisPlayer = Player.Find(id);

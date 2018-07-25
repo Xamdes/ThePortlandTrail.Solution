@@ -12,15 +12,21 @@
 </div>
 <div class="row">
     <div align="center" class="col-md-6 well">
-		<button class="btn btn-primary" type="submit">Search for Food</button>
+        <form action="/Player/{id}/Food">
+            <button class="btn btn-primary" type="submit">Search for Food</button>
+        </form>
 	</div>
 	<div align="center" class="col-md-6 well">
-		<button class="btn btn-primary" type="submit">Rest up</button>
+        <form action="/Player/{id}/Rest">
+            <button class="btn btn-primary" type="submit">Rest up</button>
+        </form>
     </div>
 </div>
 <div class="row">
     <div align="center" class="col-md-6 well">
-		<button class="btn btn-primary" type="submit">Elevate Mood</button>
+        <form action="/Player/{id}/Fix">
+            <button class="btn btn-primary" type="submit">Elevate Mood</button>
+        </form>
     </div>
     <div align="center" class="col-md-6 well">
 		<button class="btn btn-primary" type="submit">Explore Neighborhood</button>
