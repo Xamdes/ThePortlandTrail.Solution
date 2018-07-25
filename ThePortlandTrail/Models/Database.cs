@@ -14,6 +14,7 @@ namespace ThePortlandTrail.Models
     private static MySqlConnection _conn;
     private static MySqlCommand _cmd;
     private static string _connectionString = DBConfiguration.GetConnection();
+    private static List<MySqlParameter> _parameters = new List<MySqlParameter>(){};
     public delegate void Del(MySqlDataReader rdr, List<Object> objects);
 
 
@@ -46,12 +47,20 @@ namespace ThePortlandTrail.Models
 
     public static void AddParameter(string name, Object parameterValue)
     {
-      _cmd.Parameters.Add(new MySqlParameter(name, parameterValue));
+      _parameters.Add(new MySqlParameter(name, parameterValue));
     }
 
     public static void AddParameter(MySqlParameter para)
     {
-      _cmd.Parameters.Add(para);
+      _parameters.Add(para);
+    }
+
+    private static void SetParameters()
+    {
+      foreach(MySqlParameter para in _parameters)
+      {
+        _cmd.Parameters.Add(para);
+      }
     }
 
     public static void SetCommand(string commandText)
@@ -61,11 +70,13 @@ namespace ThePortlandTrail.Models
 
     public static void RunSqlCommand()
     {
+      SetParameters();
       _cmd.ExecuteNonQuery();
     }
 
     public static MySqlDataReader ReadSqlCommand()
     {
+      SetParameters();
       return (_cmd.ExecuteReader() as MySqlDataReader);
     }
 
@@ -76,6 +87,14 @@ namespace ThePortlandTrail.Models
       {
         callback(rdr,objects);
       }
+    }
+
+    public static void Run(string command)
+    {
+      OpenConnection();
+      SetCommand(command);
+      RunSqlCommand();
+      CloseConnection();
     }
 
     public static void Edit(string tableName,int id, string what,  Object editValue)
@@ -112,17 +131,22 @@ namespace ThePortlandTrail.Models
       CloseConnection();
     }
 
-    public static void SaveToTable(string tableName,string columns,List<string> values,List<Object> parameters)
+    public static void SaveToTable(string tableName,string columns,List<Object> values)
     {
-      string valueNames = string.Join(",",values);
-      OpenConnection();
-      SetCommand(@"INSERT INTO "+tableName+" ("+columns+") VALUES ("+valueNames+");");
-      for(int i = 0; i<parameters.Count();i++)
+      List<string> tempValues = columns.Split(',').ToList();
+      List<string> valueNames = new List<string>(){};
+      foreach(string s in tempValues)
       {
-        AddParameter(values[i], parameters[i]);
+        string tempString = "@"+s.ToUpper();
+        valueNames.Add(tempString);
+      }
+      string valueList = string.Join(",",valueNames);
+      SetCommand(@"INSERT INTO "+tableName+" ("+columns+") VALUES ("+valueList+");");
+      for(int i = 0; i<values.Count();i++)
+      {
+        AddParameter(valueNames[i], values[i]);
       }
       RunSqlCommand();
-      CloseConnection();
     }
 
     public static int LastInsertId()
