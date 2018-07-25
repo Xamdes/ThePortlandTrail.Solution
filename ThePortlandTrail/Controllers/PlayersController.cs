@@ -35,7 +35,31 @@ namespace ThePortlandTrail.Controllers
         {
             return View();
         }
-
+        
+        [HttpPost("/players/{id}/Food")]
+        public ActionResult Food(int id)
+        {
+            Player thisPlayer = Player.Find(id);
+            thisPlayer.GiveFood();
+            return RedirectToAction("Actions");
+        }
+        
+        [HttpPost("/players/{id}/Fix")]
+        public ActionResult Fix(int id)
+        {
+            Player thisPlayer = Player.Find(id);
+            thisPlayer.GiveFix();
+            return RedirectToAction("Actions");
+        }
+        
+        [HttpPost("/players/{id}/Rest")]
+        public ActionResult Rest(int id)
+        {
+            Player thisPlayer = Player.Find(id);
+            thisPlayer.GiveRest();
+            return RedirectToAction("Actions");
+        }
+        
         [HttpPost("players/{id}/delete")]
         public ActionResult DeletePlayer(int id)
         {
