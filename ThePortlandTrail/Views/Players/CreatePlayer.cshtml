@@ -1,0 +1,21 @@
+﻿@{
+    ViewData["Title"] = "Welcome";
+}
+
+<h1>The Portland Trail</h1>
+<h3>Create Player</h3>
+<form action='/players' method='post'>
+
+  <label for='new-name'>Name: </label>
+  <input id='new-name' name='name' type='text'>
+
+  <button type='submit'>Add Player</button>
+</form>
+
+<form action="/players">
+    <button type="submit" class="btn btn-info">Go to Game</button>
+</form>
+
+<form action="/">
+    <button type="submit" class="btn btn-info">Go Home</button>
+</form>

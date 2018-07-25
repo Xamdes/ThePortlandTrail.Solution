@@ -176,6 +176,11 @@ namespace ThePortlandTrail.Models
       DB.DeleteById(_tableName,_id);
     }
 
+    public static void Delete(int id)
+    {
+      DB.DeleteById(_tableName,id);
+    }
+
     public static void DeleteAll ()
     {
       DB.ClearTable(_tableName);
