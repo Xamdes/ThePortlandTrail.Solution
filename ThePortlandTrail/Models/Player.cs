@@ -42,8 +42,8 @@ namespace ThePortlandTrail.Models
     {
       livePlayer = this;
       DB.OpenConnection();
-      string columns = "name";
-      List<Object> values = new List<Object>(){_name};
+      string columns = "name,food,fix,rest";
+      List<Object> values = new List<Object>(){_name,_food,_fix,_rest};
       DB.SaveToTable(_tableName,columns,values);
       _id = DB.LastInsertId();
       DB.CloseConnection();
