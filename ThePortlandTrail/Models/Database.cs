@@ -15,6 +15,7 @@ namespace ThePortlandTrail.Models
     private static MySqlCommand _cmd;
     private static string _connectionString = DBConfiguration.GetConnection();
     private static List<MySqlParameter> _parameters = new List<MySqlParameter>(){};
+    private static int _lastId;
     public delegate void Del(MySqlDataReader rdr, List<Object> objects);
 
 
@@ -72,21 +73,25 @@ namespace ThePortlandTrail.Models
     {
       SetParameters();
       _cmd.ExecuteNonQuery();
+      _lastId = (int)_cmd.LastInsertedId;
     }
 
     public static MySqlDataReader ReadSqlCommand()
     {
-      SetParameters();
       return (_cmd.ExecuteReader() as MySqlDataReader);
     }
 
-    public static void ReadTable(Del callback, List<Object> objects)
+    public static void ReadTable(string command, Del callback, List<Object> objects)
     {
+      OpenConnection();
+      SetCommand(command);
+      SetParameters();
       MySqlDataReader rdr = ReadSqlCommand();
       while(rdr.Read())
       {
         callback(rdr,objects);
       }
+      CloseConnection();
     }
 
     public static void Run(string command)
@@ -133,6 +138,7 @@ namespace ThePortlandTrail.Models
 
     public static void SaveToTable(string tableName,string columns,List<Object> values)
     {
+      OpenConnection();
       List<string> tempValues = columns.Split(',').ToList();
       List<string> valueNames = new List<string>(){};
       foreach(string s in tempValues)
@@ -147,11 +153,12 @@ namespace ThePortlandTrail.Models
         AddParameter(valueNames[i], values[i]);
       }
       RunSqlCommand();
+      CloseConnection();
     }
 
     public static int LastInsertId()
     {
-      return (int) _cmd.LastInsertedId;
+      return _lastId;
     }
 
     public static int LastTableId(string tableName, string sid = "id")

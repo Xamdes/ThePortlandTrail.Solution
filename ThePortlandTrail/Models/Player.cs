@@ -53,12 +53,8 @@ namespace ThePortlandTrail.Models
     {
       List<Object> objects = new List<Object>(){};
       string command = @"SELECT * FROM players WHERE id = (@SearchId);";
-      DB.OpenConnection();
-      DB.SetCommand(command);
       DB.AddParameter("@SearchId", id);
-      DB.ReadTable(DelegateFind,objects);
-      DB.CloseConnection();
-
+      DB.ReadTable(command,DelegateFind,objects);
       return (Player) objects[0];
     }
 
@@ -82,10 +78,7 @@ namespace ThePortlandTrail.Models
     {
       List<Object> objects = new List<Object>(){};
       string command = @"SELECT * FROM players ORDER BY name;";
-      DB.OpenConnection();
-      DB.SetCommand(command);
-      DB.ReadTable(DelegateGetAll,objects);
-      DB.CloseConnection();
+      DB.ReadTable(command,DelegateGetAll,objects);
       return objects.Cast<Player>().ToList();
     }
 

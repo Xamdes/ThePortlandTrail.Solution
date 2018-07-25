@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
-cd ..
-git add .
+git add ..
 
 if [ -s = \"\$1\" ]
 then

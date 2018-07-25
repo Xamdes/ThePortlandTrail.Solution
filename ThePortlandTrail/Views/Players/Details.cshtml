@@ -1,0 +1,25 @@
+@using ThePortlandTrail.Models
+
+<h1>The Portland Trail</h1>
+
+
+<div class="row well">
+    <div class="col-md-2">
+        <p>Name: @Model.GetName()</p>
+	  </div>
+    <div class="col-md-2">
+        <p>Food: @Model.GetFood()</p>
+	  </div>
+    <div class="col-md-2">
+        <p>Rest: @Model.GetRest()</p>
+	  </div>
+    <div class="col-md-2">
+        <p>Fix: @Model.GetFix()</p>
+	  </div>
+</div>
+
+
+
+<form action="/">
+    <button type="submit" class="btn btn-info">Go To Homepage</button>
+</form>
