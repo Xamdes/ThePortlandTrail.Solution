@@ -28,5 +28,13 @@ namespace ThePortlandTrail.Controllers
         {
             return View();
         }
+        [HttpGet("Player/{id}/Delete")]
+        public ActionResult DeletePlayer(int id)
+        {
+            Player thisPlayer = Player.Find(id);
+            thisPlayer.Delete();
+            return RedirectToAction("Index");
+        }
+
     }
 }
