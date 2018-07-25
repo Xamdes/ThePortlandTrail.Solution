@@ -10,24 +10,26 @@ namespace ThePortlandTrail.Controllers
 {
     public class PlayersController : Controller
     {
-        [HttpGet("/Player/Home")]
+        [HttpGet("/player/home")]
         public ActionResult PlayerHome()
         {
             return View("Index", Player.GetAll());
         }
 
-        [HttpPost("/Player/Home")]
-        public ActionResult NewPlayer()
+        [HttpPost("/player/home")]
+        public ActionResult NewPlayer(string name)
         {
-            Player newPlayer = new Player(Request.Form["new-name"]);
+            Player newPlayer = new Player(name);
             newPlayer.Save();
             return RedirectToAction("PlayerHome");
         }
-        [HttpGet("/Player/{id}/Actions")]
+
+        [HttpGet("/player/{id}/actions")]
         public ActionResult Actions()
         {
             return View();
         }
+<<<<<<< HEAD
         [HttpPost("/Player/{id}/Food")]
         public ActionResult Food(int id)
         {
@@ -50,11 +52,21 @@ namespace ThePortlandTrail.Controllers
             return RedirectToAction("Actions");
         }
         [HttpGet("Player/{id}/Delete")]
+=======
+
+        [HttpGet("player/{id}/delete")]
+>>>>>>> d4fe753961604dcfcc9edbc66683d19aee0eef00
         public ActionResult DeletePlayer(int id)
         {
             Player thisPlayer = Player.Find(id);
             thisPlayer.Delete();
             return RedirectToAction("Index");
+        }
+        
+        [HttpGet("/player/{id}/details")]
+        public ActionResult Details(int id)
+        {
+            return View(Player.Find(id));
         }
 
     }

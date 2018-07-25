@@ -38,18 +38,13 @@ namespace ThePortlandTrail.Models
       return _id;
     }
 
-
-
     public void Save()
     {
       livePlayer = this;
       DB.OpenConnection();
-      DB.SetCommand(@"INSERT INTO players (name, food, fix, rest) VALUES (@Name, @Food, @Fix, @Rest);");
-      DB.AddParameter("@Name", _name);
-      DB.AddParameter("@Food", _food);
-      DB.AddParameter("@Fix", _fix);
-      DB.AddParameter("@Rest", _rest);
-      DB.RunSqlCommand();
+      string columns = "name,food,fix,rest";
+      List<Object> values = new List<Object>(){_name,_food,_fix,_rest};
+      DB.SaveToTable(_tableName,columns,values);
       _id = DB.LastInsertId();
       DB.CloseConnection();
     }
@@ -58,12 +53,8 @@ namespace ThePortlandTrail.Models
     {
       List<Object> objects = new List<Object>(){};
       string command = @"SELECT * FROM players WHERE id = (@SearchId);";
-      DB.OpenConnection();
-      DB.SetCommand(command);
       DB.AddParameter("@SearchId", id);
-      DB.ReadTable(DelegateFind,objects);
-      DB.CloseConnection();
-
+      DB.ReadTable(command,DelegateFind,objects);
       return (Player) objects[0];
     }
 
@@ -87,10 +78,7 @@ namespace ThePortlandTrail.Models
     {
       List<Object> objects = new List<Object>(){};
       string command = @"SELECT * FROM players ORDER BY name;";
-      DB.OpenConnection();
-      DB.SetCommand(command);
-      DB.ReadTable(DelegateGetAll,objects);
-      DB.CloseConnection();
+      DB.ReadTable(command,DelegateGetAll,objects);
       return objects.Cast<Player>().ToList();
     }
 
