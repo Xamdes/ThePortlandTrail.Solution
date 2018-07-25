@@ -38,18 +38,13 @@ namespace ThePortlandTrail.Models
       return _id;
     }
 
-
-
     public void Save()
     {
       livePlayer = this;
       DB.OpenConnection();
-      DB.SetCommand(@"INSERT INTO players (name, food, fix, rest) VALUES (@Name, @Food, @Fix, @Rest);");
-      DB.AddParameter("@Name", _name);
-      DB.AddParameter("@Food", _food);
-      DB.AddParameter("@Fix", _fix);
-      DB.AddParameter("@Rest", _rest);
-      DB.RunSqlCommand();
+      string columns = "name,food,fix,rest";
+      List<Object> values = new List<Object>(){_name,_food,_fix,_rest};
+      DB.SaveToTable(_tableName,columns,values);
       _id = DB.LastInsertId();
       DB.CloseConnection();
     }
