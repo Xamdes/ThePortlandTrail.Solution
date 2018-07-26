@@ -130,7 +130,6 @@ namespace ThePortlandTrail.Models
           what += ", ";
         }
       }
-      Console.WriteLine(what);
       SetCommand(@"UPDATE "+tableName+" SET "+what+" WHERE id = @searchId;");
       AddParameter("@searchId",id);
       for(int i = 0; i<values.Count();i++)

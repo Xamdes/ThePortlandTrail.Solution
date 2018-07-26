@@ -115,10 +115,6 @@ namespace ThePortlandTrail.Models
 
     public void UpdatePlayer()
     {
-      Console.WriteLine("Output:");
-      Console.WriteLine(GetFood());
-      Console.WriteLine(GetFix());
-      Console.WriteLine(GetRest());
       List<string> columns = new List<string>(){"food","fix","rest"};
       List<Object> objects = new List<Object>(){GetFood(),GetFix(),GetRest()};
       DB.EditMultiple(_tableName,_id,columns,objects);
@@ -126,36 +122,51 @@ namespace ThePortlandTrail.Models
 
     public int GetFood()
     {
+      if(_food>100)
+      {
+        _food = 100;
+      }
       return _food;
     }
 
     public int GetFix()
     {
+      if(_fix>100)
+      {
+        _fix = 100;
+      }
       return _fix;
     }
 
     public int GetRest()
     {
+      if(_rest>100)
+      {
+        _rest = 100;
+      }
       return _rest;
+    }
+
+    public bool isDead()
+    {
+      return (_food<=0||_fix<=0||_rest<=0);
     }
 
     public void GiveFood()
     {
-      if(_food >= 100 || _fix >= 100)
-      {
-        _rest -= 5;
-      } else{
-        _food += 10;
-        _rest -= 5;
-        _fix += 5;
-      }
+      _food += 10;
+      _rest -= 5;
+      _fix += 5;
     }
 
     public void GiveFix()
     {
-      if(_fix >= 100){
+      if(_fix >= 100)
+      {
         _fix -= 10;
-      } else{
+      }
+      else
+      {
         _fix += 15;
         _rest -= 10;
         _food -= 5;
@@ -164,15 +175,14 @@ namespace ThePortlandTrail.Models
 
     public void GiveRest()
     {
-      if(_rest >= 100){
-        _food -= 10;
-        _fix -= 20;
+      if(_rest >= 100)
+      {
+        _fix -= 15;
       }
-      else{
-        _rest += 15;
-        _food -= 10;
-        _fix -= 5;
-      }
+      _rest += 15;
+      _food -= 10;
+      _fix -= 5;
+
     }
 
     public void PassTime()
