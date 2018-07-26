@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -174,6 +174,11 @@ namespace ThePortlandTrail.Models
     public void Delete()
     {
       DB.DeleteById(_tableName,_id);
+    }
+
+    public static void Delete(int id)
+    {
+      DB.DeleteById(_tableName,id);
     }
 
     public static void DeleteAll ()

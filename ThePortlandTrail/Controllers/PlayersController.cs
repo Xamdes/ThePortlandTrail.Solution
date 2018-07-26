@@ -10,18 +10,24 @@ namespace ThePortlandTrail.Controllers
 {
     public class PlayersController : Controller
     {
-        [HttpGet("/players/home")]
+        [HttpGet("/players")]
         public ActionResult PlayerHome()
         {
             return View("Index", Player.GetAll());
         }
 
-        [HttpPost("/players/home")]
+        [HttpPost("/players")]
         public ActionResult NewPlayer(string name)
         {
             Player newPlayer = new Player(name);
             newPlayer.Save();
             return RedirectToAction("PlayerHome");
+        }
+
+        [HttpGet("/players/create")]
+        public ActionResult CreatePlayer()
+        {
+            return View();
         }
 
         [HttpGet("/players/{id}/actions")]
@@ -30,6 +36,7 @@ namespace ThePortlandTrail.Controllers
             Player thisPlayer = Player.Find(id);
             return View(thisPlayer);
         }
+        
         [HttpPost("/players/{id}/food")]
         public ActionResult Food(int id)
         {
@@ -38,6 +45,7 @@ namespace ThePortlandTrail.Controllers
             thisPlayer.UpdatePlayerFood(thisPlayer.GetFood());
             return RedirectToAction("Actions", thisPlayer);
         }
+        
         [HttpPost("/players/{id}/fix")]
         public ActionResult Fix(int id)
         {
@@ -54,6 +62,7 @@ namespace ThePortlandTrail.Controllers
             thisPlayer.UpdatePlayerRest(thisPlayer.GetRest());
             return RedirectToAction("Actions", thisPlayer);
         }
+        
         [HttpPost("/players/{id}/explore")]
         public ActionResult Explore(int id)
         {
@@ -64,15 +73,14 @@ namespace ThePortlandTrail.Controllers
             thisPlayer.UpdatePlayerRest(thisPlayer.GetRest());
             return RedirectToAction("Actions", thisPlayer);
         }
-
-        [HttpGet("players/{id}/delete")]
+        
+        [HttpPost("players/{id}/delete")]
         public ActionResult DeletePlayer(int id)
         {
-            Player thisPlayer = Player.Find(id);
-            thisPlayer.Delete();
-            return RedirectToAction("Index");
+            Player.Delete(id);
+            return RedirectToAction("PlayerHome");
         }
-        
+
         [HttpGet("/players/{id}/details")]
         public ActionResult Details(int id)
         {

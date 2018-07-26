@@ -1,23 +1,34 @@
 @using ThePortlandTrail.Models
 
+@{
+  Layout = "_Layout";
+}
+
 <h1>The Portland Trail</h1>
 @if (@Model.Count == 0) {
-<h4>No players have been added yet!</h4>
+  <h4>No players have been added yet!</h4>
 }
-@foreach (var Player in Model) {
-<div class="row well">
+@foreach (var Player in Model)
+{
+  <div class="row well">
     <div class="col-md-6">
-        <p><a class="whiteLink" href="/player/@Player.GetId()/details">@Player.GetName()</a>|Hunger: @Player.GetFood()|Mood: @Player.GetFix()|Rest: @Player.GetRest()|</p>
-	</div>
-	<div class="col-md-6" align="right">
-        <form action="/player/@Player.GetId()/delete" method="post">
-            <button type="submit" class="btn btn-link">Delete Player</button>
-        </form>
-	</div>
-</div>
+      <p><a class="whiteLink" href="/players/@Player.GetId()/details">@Player.GetName()</a>|Hunger: @Player.GetFood()|Mood: @Player.GetFix()|Rest: @Player.GetRest()|</p>
+    </div>
+    <div class="col-md-6" align="right">
+      <form action="/players/@Player.GetId()/delete" method="post">
+        <button type="submit" class="btn btn-link">Delete Player</button>
+      </form>
+    </div>
+  </div>
 }
+
+
+<form action="/players/create">
+  <button type="submit" class="btn btn-success ot-btn-content">Create New Player</button>
+</form>
+
 
 
 <form action="/">
-    <button type="submit" class="btn btn-info">Go To Homepage</button>
+  <button type="submit" class="btn btn-info ot-btn-content">Go Home</button>
 </form>
