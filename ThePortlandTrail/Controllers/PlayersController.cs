@@ -10,13 +10,13 @@ namespace ThePortlandTrail.Controllers
 {
     public class PlayersController : Controller
     {
-        [HttpGet("/player/home")]
+        [HttpGet("/players/home")]
         public ActionResult PlayerHome()
         {
             return View("Index", Player.GetAll());
         }
 
-        [HttpPost("/player/home")]
+        [HttpPost("/players/home")]
         public ActionResult NewPlayer(string name)
         {
             Player newPlayer = new Player(name);
@@ -24,13 +24,13 @@ namespace ThePortlandTrail.Controllers
             return RedirectToAction("PlayerHome");
         }
 
-        [HttpGet("/player/{id}/actions")]
+        [HttpGet("/players/{id}/actions")]
         public ActionResult Actions(int id)
         {
             Player thisPlayer = Player.Find(id);
             return View(thisPlayer);
         }
-        [HttpPost("/player/{id}/food")]
+        [HttpPost("/players/{id}/food")]
         public ActionResult Food(int id)
         {
             Player thisPlayer = Player.Find(id);
@@ -38,7 +38,7 @@ namespace ThePortlandTrail.Controllers
             thisPlayer.UpdatePlayerFood(thisPlayer.GetFood());
             return RedirectToAction("Actions", thisPlayer);
         }
-        [HttpPost("/player/{id}/fix")]
+        [HttpPost("/players/{id}/fix")]
         public ActionResult Fix(int id)
         {
             Player thisPlayer = Player.Find(id);
@@ -46,7 +46,7 @@ namespace ThePortlandTrail.Controllers
             thisPlayer.UpdatePlayerFix(thisPlayer.GetFix());
             return RedirectToAction("Actions", thisPlayer);
         }
-        [HttpPost("/player/{id}/rest")]
+        [HttpPost("/players/{id}/rest")]
         public ActionResult Rest(int id)
         {
             Player thisPlayer = Player.Find(id);
@@ -54,7 +54,7 @@ namespace ThePortlandTrail.Controllers
             thisPlayer.UpdatePlayerRest(thisPlayer.GetRest());
             return RedirectToAction("Actions", thisPlayer);
         }
-        [HttpPost("/player/{id}/explore")]
+        [HttpPost("/players/{id}/explore")]
         public ActionResult Explore(int id)
         {
             Player thisPlayer = Player.Find(id);
@@ -65,7 +65,7 @@ namespace ThePortlandTrail.Controllers
             return RedirectToAction("Actions", thisPlayer);
         }
 
-        [HttpGet("player/{id}/delete")]
+        [HttpGet("players/{id}/delete")]
         public ActionResult DeletePlayer(int id)
         {
             Player thisPlayer = Player.Find(id);
@@ -73,7 +73,7 @@ namespace ThePortlandTrail.Controllers
             return RedirectToAction("Index");
         }
         
-        [HttpGet("/player/{id}/details")]
+        [HttpGet("/players/{id}/details")]
         public ActionResult Details(int id)
         {
             return View(Player.Find(id));
