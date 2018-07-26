@@ -26,6 +26,25 @@
       - Search for food, get rest, boost mood.
       - Rest when conditions are met(Rest meter is low or environment is met)
 
+## Run The Portland Trail
+
+  * cd ThePortlandTrail.Solution/ThePortlandTrail
+  * dotnet restore
+  * dotnet build
+  * dotnet run
+  * open browser (Chrome)
+  * Type http://localhost:5000 in url bar
+  * Press Enter
+  * Play The Portland Trail!
+
+## The Portland Trail Database
+
+  * CREATE DATABASE crust;
+
+  * USE crust;
+
+  * CREATE TABLE `crust`.`players` ( `id` INT NULL AUTO_INCREMENT , `food` INT NULL , `fix` INT NULL , `rest` INT NULL , `name` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB CHARSET=utf8 COLLATE utf8_general_ci;
+
 ## License
   MIT License
 
