@@ -31,33 +31,47 @@ namespace ThePortlandTrail.Controllers
         }
 
         [HttpGet("/players/{id}/actions")]
-        public ActionResult Actions()
+        public ActionResult Actions(int id)
         {
-            return View();
+            Player thisPlayer = Player.Find(id);
+            return View(thisPlayer);
         }
         
-        [HttpPost("/players/{id}/Food")]
+        [HttpPost("/players/{id}/food")]
         public ActionResult Food(int id)
         {
             Player thisPlayer = Player.Find(id);
             thisPlayer.GiveFood();
-            return RedirectToAction("Actions");
+            thisPlayer.UpdatePlayerFood(thisPlayer.GetFood());
+            return RedirectToAction("Actions", thisPlayer);
         }
         
-        [HttpPost("/players/{id}/Fix")]
+        [HttpPost("/players/{id}/fix")]
         public ActionResult Fix(int id)
         {
             Player thisPlayer = Player.Find(id);
             thisPlayer.GiveFix();
-            return RedirectToAction("Actions");
+            thisPlayer.UpdatePlayerFix(thisPlayer.GetFix());
+            return RedirectToAction("Actions", thisPlayer);
         }
-        
-        [HttpPost("/players/{id}/Rest")]
+        [HttpPost("/players/{id}/rest")]
         public ActionResult Rest(int id)
         {
             Player thisPlayer = Player.Find(id);
             thisPlayer.GiveRest();
-            return RedirectToAction("Actions");
+            thisPlayer.UpdatePlayerRest(thisPlayer.GetRest());
+            return RedirectToAction("Actions", thisPlayer);
+        }
+        
+        [HttpPost("/players/{id}/explore")]
+        public ActionResult Explore(int id)
+        {
+            Player thisPlayer = Player.Find(id);
+            thisPlayer.PassTime();
+            thisPlayer.UpdatePlayerFix(thisPlayer.GetFix());
+            thisPlayer.UpdatePlayerFood(thisPlayer.GetFood());
+            thisPlayer.UpdatePlayerRest(thisPlayer.GetRest());
+            return RedirectToAction("Actions", thisPlayer);
         }
         
         [HttpPost("players/{id}/delete")]
