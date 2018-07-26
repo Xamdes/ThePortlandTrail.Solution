@@ -112,6 +112,35 @@ namespace ThePortlandTrail.Models
       CloseConnection();
     }
 
+    public static void EditMultiple(string tableName,int id, List<string> columns, List<Object> values)
+    {
+      OpenConnection();
+      string what = "";
+      List<string> valueNames = new List<string>(){};
+      foreach(string column in columns)
+      {
+        string tempString = "@"+column.ToUpper();
+        valueNames.Add(tempString);
+      }
+      for(int i=0;i<columns.Count();i++)
+      {
+        what += (columns[i]+" = "+valueNames[i]);
+        if(i!=(columns.Count()-1))
+        {
+          what += ", ";
+        }
+      }
+      Console.WriteLine(what);
+      SetCommand(@"UPDATE "+tableName+" SET "+what+" WHERE id = @searchId;");
+      AddParameter("@searchId",id);
+      for(int i = 0; i<values.Count();i++)
+      {
+        AddParameter(valueNames[i], values[i]);
+      }
+      RunSqlCommand();
+      CloseConnection();
+    }
+
     public static void ClearTable(string tableName, bool saveUniqueIds = true)
     {
       OpenConnection();

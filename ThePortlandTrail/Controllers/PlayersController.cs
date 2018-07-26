@@ -42,9 +42,7 @@ namespace ThePortlandTrail.Controllers
         {
             Player thisPlayer = Player.Find(id);
             thisPlayer.GiveFood();
-            thisPlayer.UpdatePlayerFix(thisPlayer.GetFix());
-            thisPlayer.UpdatePlayerRest(thisPlayer.GetRest());
-            thisPlayer.UpdatePlayerFood(thisPlayer.GetFood());
+            thisPlayer.UpdatePlayer();
             return RedirectToAction("PlayerHome");
         }
 
@@ -53,9 +51,7 @@ namespace ThePortlandTrail.Controllers
         {
             Player thisPlayer = Player.Find(id);
             thisPlayer.GiveFix();
-            thisPlayer.UpdatePlayerFix(thisPlayer.GetFix());
-            thisPlayer.UpdatePlayerRest(thisPlayer.GetRest());
-            thisPlayer.UpdatePlayerFood(thisPlayer.GetFood());
+            thisPlayer.UpdatePlayer();
             return RedirectToAction("PlayerHome");
         }
         [HttpGet("/players/{id}/rest")]
@@ -63,9 +59,7 @@ namespace ThePortlandTrail.Controllers
         {
             Player thisPlayer = Player.Find(id);
             thisPlayer.GiveRest();
-            thisPlayer.UpdatePlayerFix(thisPlayer.GetFix());
-            thisPlayer.UpdatePlayerRest(thisPlayer.GetRest());
-            thisPlayer.UpdatePlayerFood(thisPlayer.GetFood());
+            thisPlayer.UpdatePlayer();
             return RedirectToAction("PlayerHome");
         }
 
@@ -74,9 +68,7 @@ namespace ThePortlandTrail.Controllers
         {
             Player thisPlayer = Player.Find(id);
             thisPlayer.PassTime();
-            thisPlayer.UpdatePlayerFix(thisPlayer.GetFix());
-            thisPlayer.UpdatePlayerFood(thisPlayer.GetFood());
-            thisPlayer.UpdatePlayerRest(thisPlayer.GetRest());
+            thisPlayer.UpdatePlayer();
             return RedirectToAction("PlayerHome");
         }
 

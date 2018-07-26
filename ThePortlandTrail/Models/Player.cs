@@ -77,7 +77,7 @@ namespace ThePortlandTrail.Models
     public static List<Player> GetAll ()
     {
       List<Object> objects = new List<Object>(){};
-      string command = @"SELECT * FROM players ORDER BY name;";
+      string command = @"SELECT * FROM "+_tableName+" ORDER BY name;";
       DB.ReadTable(command,DelegateGetAll,objects);
       return objects.Cast<Player>().ToList();
     }
@@ -111,6 +111,17 @@ namespace ThePortlandTrail.Models
     public void UpdatePlayerRest (int newPlayerRest)
     {
       DB.Edit(_tableName,_id,"rest",newPlayerRest);
+    }
+
+    public void UpdatePlayer()
+    {
+      Console.WriteLine("Output:");
+      Console.WriteLine(GetFood());
+      Console.WriteLine(GetFix());
+      Console.WriteLine(GetRest());
+      List<string> columns = new List<string>(){"food","fix","rest"};
+      List<Object> objects = new List<Object>(){GetFood(),GetFix(),GetRest()};
+      DB.EditMultiple(_tableName,_id,columns,objects);
     }
 
     public int GetFood()
