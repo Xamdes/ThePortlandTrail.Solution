@@ -25,32 +25,45 @@ namespace ThePortlandTrail.Controllers
         }
 
         [HttpGet("/player/{id}/actions")]
-        public ActionResult Actions()
+        public ActionResult Actions(int id)
         {
-            return View();
+            Player thisPlayer = Player.Find(id);
+            return View(thisPlayer);
         }
-        [HttpPost("/Player/{id}/Food")]
+        [HttpPost("/player/{id}/food")]
         public ActionResult Food(int id)
         {
             Player thisPlayer = Player.Find(id);
             thisPlayer.GiveFood();
-            return RedirectToAction("Actions");
+            thisPlayer.UpdatePlayerFood(thisPlayer.GetFood());
+            return RedirectToAction("Actions", thisPlayer);
         }
-        [HttpPost("/Player/{id}/Fix")]
+        [HttpPost("/player/{id}/fix")]
         public ActionResult Fix(int id)
         {
             Player thisPlayer = Player.Find(id);
             thisPlayer.GiveFix();
-            return RedirectToAction("Actions");
+            thisPlayer.UpdatePlayerFix(thisPlayer.GetFix());
+            return RedirectToAction("Actions", thisPlayer);
         }
-        [HttpPost("/Player/{id}/Rest")]
+        [HttpPost("/player/{id}/rest")]
         public ActionResult Rest(int id)
         {
             Player thisPlayer = Player.Find(id);
             thisPlayer.GiveRest();
-            return RedirectToAction("Actions");
+            thisPlayer.UpdatePlayerRest(thisPlayer.GetRest());
+            return RedirectToAction("Actions", thisPlayer);
         }
-        
+        [HttpPost("/player/{id}/explore")]
+        public ActionResult Explore(int id)
+        {
+            Player thisPlayer = Player.Find(id);
+            thisPlayer.PassTime();
+            thisPlayer.UpdatePlayerFix(thisPlayer.GetFix());
+            thisPlayer.UpdatePlayerFood(thisPlayer.GetFood());
+            thisPlayer.UpdatePlayerRest(thisPlayer.GetRest());
+            return RedirectToAction("Actions", thisPlayer);
+        }
 
         [HttpGet("player/{id}/delete")]
         public ActionResult DeletePlayer(int id)
