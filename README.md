@@ -10,6 +10,10 @@
     - https://www.github.com/Hanleyjames
   2. John Murray
   3. Steven Colburn
+    - stevencolburn@xamdes.com
+    - https://github.com/Xamdes
+    - https://www.linkedin.com/in/xamdes/
+    - https://www.xamdes.com
   4. William Kinzig
   5. Brian Palowski
 
