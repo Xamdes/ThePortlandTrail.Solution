@@ -14,7 +14,12 @@
     <div class="col-md-6">
       <p><a class="whiteLink" href="/players/@Player.GetId()/details">@Player.GetName()</a>|Hunger: @Player.GetFood()|Mood: @Player.GetFix()|Rest: @Player.GetRest()|</p>
     </div>
-    <div class="col-md-6" align="right">
+    <div class="col-md-4" align="right">
+      <form action="/players/@Player.GetId()/actions">
+        <button type="submit" class="btn btn-link">Player Actions</button>
+      </form>
+    </div>
+    <div class="col-md-2" align="right">
       <form action="/players/@Player.GetId()/delete" method="post">
         <button type="submit" class="btn btn-link">Delete Player</button>
       </form>
