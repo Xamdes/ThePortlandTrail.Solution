@@ -26,3 +26,7 @@ input, select, textarea {
         display: none;
     }
 }
+
+.ot-btn-content{
+  margin: 2px;
+}

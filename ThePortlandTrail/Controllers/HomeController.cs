@@ -8,7 +8,7 @@ namespace ThePortlandTrail.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        public IActionResult IIndex()
         {
             return View();
         }
@@ -30,6 +30,12 @@ namespace ThePortlandTrail.Controllers
         public IActionResult Error()
         {
             return View();
+        }
+
+        [HttpGet("/")]
+        public ActionResult Index()
+        {
+        return View();
         }
     }
 }

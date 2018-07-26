@@ -1,38 +1,57 @@
 # The Portland Trail
 
-### Description:
-[finish later]
+## Description:
+  This is a friday group project for 7/26/18. While we were not able to finish the ambition of the project, we were able to get a working template for a future one.
 
-### Specs:
+## This project is by:
+  1. James Hanley
+      - hanley.doth@outlook.com
+      - https://www.hanleyjames.github.io
+      - https://www.github.com/Hanleyjames
+  2. John Murray
+  3. Steven Colburn
+      - stevencolburn@xamdes.com
+      - https://github.com/Xamdes
+      - https://www.linkedin.com/in/xamdes/
+      - https://www.xamdes.com
+  4. William Kinzig
+  5. Brian Palowski
 
-- User
-  - The User can create their Crust
-  - The User can perform a set of actions
-    - Explore or Passthrough(increment time)
-    - Panhandle
-    - Rest when conditions are met(Rest meter is low or environment is met)
-  - The User can Access inventory
-  - The User can store found items
-  - The User can use items in inventory
-  - User must maintain (thirst, hygiene, happiness, rest, hunger, fix)
-  - User must avoid ailments
-- Neighborhood(environment)
-  - People
-    -speech
-    -resources
-- Resources
-  - User can get food(Sandwich, sidewalk nachos (odd toppings), road kill, animals)
-  - User can get rest((lawn/alley)couch, box, grass, sidewalk)
-  - User source for Water(poor quality/good quality)
-  - Fix
-- Dumpster Resources
-  - User can roll (protection, food, fix, hygiene)
+## Specs:
 
-----------------
-##### Extra:
+  - User
+    - The User can create their person
+    - The User can perform a set of actions
+      - Explore or Passthrough(increment time)
+      - Search for food, get rest, boost mood.
+      - Rest when conditions are met(Rest meter is low or environment is met)
 
-- Modifier
-  - weather Environment has Weather changes(rain, snow, clear, cloud)
-  - interactions Environment changes interaction results
-  - Luck
-  - fate Odd acts of fate (stabbed, 'arrested', given gift, bad fix,)
+## Run The Portland Trail
+
+  * cd ThePortlandTrail.Solution/ThePortlandTrail
+  * dotnet restore
+  * dotnet build
+  * dotnet run
+  * open browser (Chrome)
+  * Type http://localhost:5000 in url bar
+  * Press Enter
+  * Play The Portland Trail!
+
+## The Portland Trail Database
+
+  * CREATE DATABASE crust;
+
+  * USE crust;
+
+  * CREATE TABLE `crust`.`players` ( `id` INT NULL AUTO_INCREMENT , `food` INT NULL , `fix` INT NULL , `rest` INT NULL , `name` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB CHARSET=utf8 COLLATE utf8_general_ci;
+
+## License
+  MIT License
+
+  Copyright (c) 2018 James Hanley
+
+  Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+  The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
