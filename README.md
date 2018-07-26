@@ -5,9 +5,9 @@
 
 ## This project is by:
   1. James Hanley
-    -hanley.doth@outlook.com
-    -https://www.hanleyjames.github.io
-    -https://www.github.com/Hanleyjames
+    - hanley.doth@outlook.com
+    - https://www.hanleyjames.github.io
+    - https://www.github.com/Hanleyjames
   2. John Murray
   3. Steven Colburn
   4. William Kinzig
